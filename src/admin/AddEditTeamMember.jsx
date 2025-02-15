@@ -119,17 +119,28 @@ const AddEditTeamMember = () => {
                     </label>
                 </div>
 
-                <input type="text" name="position" placeholder="Position" value={formData.position} onChange={handleChange} required />
-                <input type="text" name="funFact" placeholder="Fun Fact" value={formData.funFact} onChange={handleChange} />
+                <div className="input-group">
+                    <input type="text" name="position" placeholder="Position" value={formData.position} onChange={handleChange} required />
+                </div>
+
+                <div className="input-group">
+                    <input type="text" name="funFact" placeholder="Fun Fact" value={formData.funFact} onChange={handleChange} />
+                </div>
 
                 <label>Profile Picture:</label>
-                <input type="file" accept="image/*" onChange={handleImageUpload} />
+                <div className="input-group">
+                    <input type="file" accept="image/*" onChange={handleImageUpload} required />
+                </div>
                 {uploading && <p>Uploading image...</p>}
                 {formData.image && <img src={formData.image} alt="Profile Preview" width="100" className="profile-preview" />}
 
                 <h3>Social Links</h3>
-                <input type="text" name="linkedin" placeholder="LinkedIn URL" value={formData.socialLinks.linkedin} onChange={handleSocialChange} />
-                <input type="text" name="instagram" placeholder="Instagram URL" value={formData.socialLinks.instagram} onChange={handleSocialChange} />
+                <div className="input-group">
+                    <input type="text" name="linkedin" placeholder="LinkedIn URL" value={formData.socialLinks.linkedin} onChange={handleSocialChange} />
+                </div>
+                <div className="input-group">
+                    <input type="text" name="instagram" placeholder="Instagram URL" value={formData.socialLinks.instagram} onChange={handleSocialChange} />
+                </div>
 
                 <button type="submit" className="submit-btn">{id ? "Update" : "Add"} Member</button>
             </form>

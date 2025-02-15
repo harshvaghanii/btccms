@@ -16,6 +16,16 @@
 .input-group {
     display: flex;
     gap: 10px;
+    width: 100%;
+}
+
+.input-group input {
+    flex: 1;
+    /* Ensures equal width distribution */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .custom-dropdown {

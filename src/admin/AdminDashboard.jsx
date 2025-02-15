@@ -6,6 +6,8 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import TeamManagement from "./TeamManagement";
 import AddEditTeamMember from "./AddEditTeamMember";
+import ProjectManagement from "./ProjectManagement";
+import AddEditProject from "./AddEditProject";
 
 function AdminDashboard() {
     const navigate = useNavigate();
@@ -27,6 +29,9 @@ function AdminDashboard() {
                         <Route path="team" element={<TeamManagement />} />
                         <Route path="team/add" element={<AddEditTeamMember />} />
                         <Route path="team/edit/:id" element={<AddEditTeamMember />} />
+                        <Route path="projects" element={<ProjectManagement />} />
+                        <Route path="projects/add" element={<AddEditProject />} />
+                        <Route path="projects/edit/:id" element={<AddEditProject />} />
                     </Routes>
                 </div>
             </div>

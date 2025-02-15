@@ -2,3 +2,5 @@
 @import "./styles/AdminPanel.css";
 @import "./styles/TeamManagement.css";
 @import "./styles/AddEditTeamMember.css";
+@import "./styles/AddEditProject.css";
+@import "./styles/ProjectManagement.css";
