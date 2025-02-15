@@ -1,22 +1,24 @@
-// src/admin/AdminDashboard.js
 import React from "react";
-import { auth } from "../firebase";
+import { logout } from "../firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-const AdminDashboard = () => {
+function AdminDashboard() {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        await auth.signOut();
-        navigate("/");
+        await logout();
+        navigate("/login");
     };
 
     return (
-        <div>
-            <h2>Welcome to the Admin Panel</h2>
-            <button onClick={handleLogout}>Logout</button>
+        <div className="container">
+            <h1>Admin Dashboard</h1>
+            <p>Welcome, Admin! Manage your content here.</p>
+            <button onClick={handleLogout} style={{ backgroundColor: "red" }}>
+                Logout
+            </button>
         </div>
     );
-};
+}
 
 export default AdminDashboard;
