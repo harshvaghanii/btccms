@@ -16,15 +16,15 @@ const AddEditTeamMember = () => {
         year: "",
         major: "",
         isEboardMember: false,
-        position: "",
+        isProductManager: false,    // New field
+        isSoftwareEngineer: false,  // New field
+        isUIDesigner: false,        // New field
+        title: "",
         funFact: "",
         image: null,
         socialLinks: { linkedin: "", instagram: "" },
-        priority: 0
+        priority: ""
     });
-
-    const [priority, setPriority] = useState(0);
-
 
     const [uploading, setUploading] = useState(false);
 
@@ -115,6 +115,7 @@ const AddEditTeamMember = () => {
 
                 <input type="text" name="major" placeholder="Major" value={formData.major} onChange={handleChange} required />
 
+                {/* Role Toggles */}
                 <div className="toggle-container">
                     <span>Executive Board Member</span>
                     <label className="toggle-switch">
@@ -123,8 +124,32 @@ const AddEditTeamMember = () => {
                     </label>
                 </div>
 
+                <div className="toggle-container">
+                    <span>Product Manager</span>
+                    <label className="toggle-switch">
+                        <input type="checkbox" name="isProductManager" checked={formData.isProductManager} onChange={handleChange} />
+                        <span className="slider round"></span>
+                    </label>
+                </div>
+
+                <div className="toggle-container">
+                    <span>Software Engineer</span>
+                    <label className="toggle-switch">
+                        <input type="checkbox" name="isSoftwareEngineer" checked={formData.isSoftwareEngineer} onChange={handleChange} />
+                        <span className="slider round"></span>
+                    </label>
+                </div>
+
+                <div className="toggle-container">
+                    <span>UI/UX Designer</span>
+                    <label className="toggle-switch">
+                        <input type="checkbox" name="isUIDesigner" checked={formData.isUIDesigner} onChange={handleChange} />
+                        <span className="slider round"></span>
+                    </label>
+                </div>
+
                 <div className="input-group">
-                    <input type="text" name="position" placeholder="Position" value={formData.position} onChange={handleChange} required />
+                    <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} required />
                 </div>
 
                 <div className="input-group">
@@ -146,13 +171,17 @@ const AddEditTeamMember = () => {
                     <input type="text" name="instagram" placeholder="Instagram URL" value={formData.socialLinks.instagram} onChange={handleSocialChange} />
                 </div>
 
-                <label>Priority [Enter priority (0 for President, 1 for VP, etc.)]</label>
-                <input
-                    type="number"
-                    value={priority}
-                    onChange={(e) => setPriority(Number(e.target.value))}
-                    placeholder="Enter priority (1 for President, 2 for VP, etc.)"
-                />
+                <label>Priority</label>
+                <div className="input-group">
+                    <input
+                        type="number"
+                        name="priority"
+                        value={formData.priority}
+                        onChange={handleChange}
+                        placeholder="Enter priority (0 for President, 1 for VP, etc.)"
+                        required
+                    />
+                </div>
 
                 <button type="submit" className="submit-btn">{id ? "Update" : "Add"} Member</button>
             </form>
