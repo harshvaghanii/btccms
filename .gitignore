@@ -25,3 +25,5 @@ yarn-error.log*
 buildDeploy.sh
 
 .firebase
+
+package-lock.json
