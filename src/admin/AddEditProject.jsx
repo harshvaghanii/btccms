@@ -12,13 +12,15 @@ const AddEditProject = () => {
         title: "",
         description: "",
         appUrl: "",
-        projectUrls: [],
+        projectUrls: [],  // Added for multiple project URLs
         figmaUrl: "",
         techStack: "",
-        images: []
+        images: [],
+        priority: 0  // Moved priority into formData
     });
 
     const [uploading, setUploading] = useState(false);
+    const [newProjectUrl, setNewProjectUrl] = useState(""); // For adding multiple URLs dynamically
 
     useEffect(() => {
         if (id) {
@@ -80,6 +82,25 @@ const AddEditProject = () => {
         }));
     };
 
+    // Add a new project URL to the array
+    const handleAddProjectUrl = () => {
+        if (newProjectUrl.trim() !== "") {
+            setFormData((prev) => ({
+                ...prev,
+                projectUrls: [...prev.projectUrls, newProjectUrl.trim()],
+            }));
+            setNewProjectUrl(""); // Reset input field
+        }
+    };
+
+    // Remove a specific project URL
+    const handleRemoveProjectUrl = (url) => {
+        setFormData((prev) => ({
+            ...prev,
+            projectUrls: prev.projectUrls.filter((item) => item !== url),
+        }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.images.length === 0) {
@@ -103,8 +124,22 @@ const AddEditProject = () => {
         <div className="project-form-container">
             <h2>{id ? "Edit" : "Add"} Project</h2>
             <form onSubmit={handleSubmit} className="form">
-                <input type="text" name="title" className="input-field" placeholder="Project Title" value={formData.title} onChange={handleChange} required />
+                <div className="input-group">
+                    <input type="text" name="title" className="input-field" placeholder="Project Title" value={formData.title} onChange={handleChange} required />
+                </div>
                 <textarea name="description" className="input-field" placeholder="Project Description" value={formData.description} onChange={handleChange} required />
+
+                <div className="input-group">
+                    <input type="text" name="appUrl" className="input-field" placeholder="App URL (optional)" value={formData.appUrl} onChange={handleChange} />
+                </div>
+
+                <div className="input-group">
+                    <input type="text" name="figmaUrl" className="input-field" placeholder="Figma URL (optional)" value={formData.figmaUrl} onChange={handleChange} />
+                </div>
+
+                <div className="input-group">
+                    <input type="text" name="techStack" className="input-field" placeholder="Tech Stack (e.g., React, Node.js)" value={formData.techStack} onChange={handleChange} />
+                </div>
 
                 <label className="file-upload">
                     Upload Images:
@@ -122,6 +157,34 @@ const AddEditProject = () => {
                     ))}
                 </div>
 
+                <label>Priority (Lower the priority, higher it will be placed in Project List)</label>
+                <div className="input-group"><input
+                    type="number"
+                    name="priority"
+                    value={formData.priority}
+                    onChange={handleChange}
+                    placeholder="Enter priority (0 for most important)"
+                /></div>
+
+                <label>Project URLs (Optional, add multiple)</label>
+                <div className="project-url-container">
+                    <div className="input-group"><input
+                        type="text"
+                        value={newProjectUrl}
+                        onChange={(e) => setNewProjectUrl(e.target.value)}
+                        placeholder="Enter project URL"
+                    /></div>
+                    <button type="button" onClick={handleAddProjectUrl}>Add URL</button>
+                </div>
+
+                <div className="project-url-list">
+                    {formData.projectUrls.map((url, index) => (
+                        <div key={index} className="url-item">
+                            <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+                            <button type="button" className="remove-btn" onClick={() => handleRemoveProjectUrl(url)}>Remove</button>
+                        </div>
+                    ))}
+                </div>
 
                 <button type="submit" className="submit-btn">{id ? "Update" : "Add"} Project</button>
             </form>

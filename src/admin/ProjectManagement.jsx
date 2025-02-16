@@ -26,7 +26,7 @@ const ProjectManagement = () => {
         <div className="project-management-container">
             <h2>Manage Projects</h2>
             <Link to="/admin/projects/add">
-                <button className="add-button">+ Add New Project</button>
+                <button className="add-button">Add New Project</button>
             </Link>
             <table className="project-table">
                 <thead>

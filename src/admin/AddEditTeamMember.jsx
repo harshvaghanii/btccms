@@ -20,7 +20,11 @@ const AddEditTeamMember = () => {
         funFact: "",
         image: null,
         socialLinks: { linkedin: "", instagram: "" },
+        priority: 0
     });
+
+    const [priority, setPriority] = useState(0);
+
 
     const [uploading, setUploading] = useState(false);
 
@@ -41,7 +45,7 @@ const AddEditTeamMember = () => {
         const { name, value, type, checked } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value,
+            [name]: name === "priority" ? Number(value) : (type === "checkbox" ? checked : value),
         }));
     };
 
@@ -141,6 +145,14 @@ const AddEditTeamMember = () => {
                 <div className="input-group">
                     <input type="text" name="instagram" placeholder="Instagram URL" value={formData.socialLinks.instagram} onChange={handleSocialChange} />
                 </div>
+
+                <label>Priority [Enter priority (0 for President, 1 for VP, etc.)]</label>
+                <input
+                    type="number"
+                    value={priority}
+                    onChange={(e) => setPriority(Number(e.target.value))}
+                    placeholder="Enter priority (1 for President, 2 for VP, etc.)"
+                />
 
                 <button type="submit" className="submit-btn">{id ? "Update" : "Add"} Member</button>
             </form>
