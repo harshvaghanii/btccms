@@ -129,7 +129,7 @@ const AddEditTeamMember = () => {
 
                 <label>Profile Picture:</label>
                 <div className="input-group">
-                    <input type="file" accept="image/*" onChange={handleImageUpload} required />
+                    <input type="file" accept="image/*" onChange={handleImageUpload} />
                 </div>
                 {uploading && <p>Uploading image...</p>}
                 {formData.image && <img src={formData.image} alt="Profile Preview" width="100" className="profile-preview" />}
