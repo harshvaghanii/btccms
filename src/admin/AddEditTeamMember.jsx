@@ -4,7 +4,7 @@ import { collection, addDoc, updateDoc, doc, getDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigate, useParams } from "react-router-dom";
 
-const yearOptions = ["Freshman", "Sophomore", "Junior", "Senior", "Graduate"];
+const yearOptions = ["Freshman", "Sophomore", "Junior", "Senior", "Graduate", "Alumni"];
 
 const AddEditTeamMember = () => {
     const { id } = useParams();
