@@ -26,12 +26,12 @@ const TeamManagement = () => {
         <div className="team-management-container">
             <h2>Manage Team Members</h2>
             <Link to="/admin/team/add">
-                <button className="add-button">+ Add New Member</button>
+                <button className="add-button">Add New Member</button>
             </Link>
             <table className="team-table">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Team Member</th>
                         <th>Position</th>
                         <th>Actions</th>
                     </tr>
@@ -39,7 +39,14 @@ const TeamManagement = () => {
                 <tbody>
                     {teamMembers.map(member => (
                         <tr key={member.id}>
-                            <td>{member.firstName} {member.lastName}</td>
+                            <td className="member-info">
+                                <img
+                                    src={member.image || "/default-avatar.png"}
+                                    alt={member.firstName}
+                                    className="avatar"
+                                />
+                                {member.firstName} {member.lastName}
+                            </td>
                             <td>{member.position}</td>
                             <td className="action-buttons">
                                 <Link to={`/admin/team/edit/${member.id}`}>
