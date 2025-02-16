@@ -47,7 +47,7 @@ const TeamManagement = () => {
                                 />
                                 {member.firstName} {member.lastName}
                             </td>
-                            <td>{member.position}</td>
+                            <td>{member.title}</td>
                             <td className="action-buttons">
                                 <Link to={`/admin/team/edit/${member.id}`}>
                                     <button className="edit-button">Edit</button>
