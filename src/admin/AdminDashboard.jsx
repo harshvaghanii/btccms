@@ -24,7 +24,6 @@ function AdminDashboard() {
                 <Header onLogout={handleLogout} />
                 <div className="dashboard-content">
                     <Routes>
-                        {/* ✅ Remove `/admin` from paths since it's already handled in `App.js` */}
                         <Route path="/" element={<h3>Welcome, Admin! Select an option from the sidebar.</h3>} />
                         <Route path="team" element={<TeamManagement />} />
                         <Route path="team/add" element={<AddEditTeamMember />} />

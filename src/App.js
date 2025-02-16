@@ -11,7 +11,6 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      {/* 🛠 Added `/*` to support nested routes inside AdminDashboard */}
       <Route path="/admin/*" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
     </Routes>
   );

@@ -1,7 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { onAuthStateChange } from "../firebase/auth";
 
 function Home() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChange((authUser) => {
+            if (authUser) {
+                navigate("/admin");
+            }
+        });
+
+        return () => unsubscribe();
+    }, [navigate]);
+
     return (
         <div className="container">
             <h1>Welcome to BTC CMS</h1>

@@ -138,11 +138,11 @@ const AddEditProject = () => {
                 </div>
 
                 <div className="input-group">
-                    <input type="text" name="techStack" className="input-field" placeholder="Tech Stack (e.g., React, Node.js)" value={formData.techStack} onChange={handleChange} />
+                    <input type="text" name="techStack" className="input-field" placeholder="Tech Stack (Use comma separated for multiple values. Eg: React,Nodejs)" value={formData.techStack} onChange={handleChange} />
                 </div>
 
                 <label className="file-upload">
-                    Upload Images:
+                    Upload Images
                     <input type="file" accept="image/*" multiple onChange={handleImageUpload} />
                 </label>
 
