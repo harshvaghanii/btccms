@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { db, storage } from "../firebase";
 import { collection, addDoc, updateDoc, doc, getDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -9,6 +9,7 @@ const yearOptions = ["Freshman", "Sophomore", "Junior", "Senior", "Graduate", "A
 const AddEditTeamMember = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const fileInputRef = useRef(null); // Add ref for file input
 
     const [formData, setFormData] = useState({
         firstName: "",
@@ -16,9 +17,9 @@ const AddEditTeamMember = () => {
         year: "",
         major: "",
         isEboardMember: false,
-        isProductManager: false,    // New field
-        isSoftwareEngineer: false,  // New field
-        isUIDesigner: false,        // New field
+        isProductManager: false,
+        isSoftwareEngineer: false,
+        isUIDesigner: false,
         title: "",
         funFact: "",
         image: null,
@@ -27,15 +28,18 @@ const AddEditTeamMember = () => {
     });
 
     const [uploading, setUploading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (id) {
             const fetchMember = async () => {
+                setLoading(true);
                 const docRef = doc(db, "teamMembers", id);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     setFormData(docSnap.data());
                 }
+                setLoading(false);
             };
             fetchMember();
         }
@@ -80,6 +84,16 @@ const AddEditTeamMember = () => {
         );
     };
 
+    // Function to remove uploaded image and reset file input
+    const handleRemoveImage = () => {
+        setFormData((prev) => ({ ...prev, image: null }));
+
+        // Reset file input field
+        if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -115,53 +129,24 @@ const AddEditTeamMember = () => {
 
                 <input type="text" name="major" placeholder="Major" value={formData.major} onChange={handleChange} required />
 
-                {/* Role Toggles */}
-                <div className="toggle-container">
-                    <span>Executive Board Member</span>
-                    <label className="toggle-switch">
-                        <input type="checkbox" name="isEboardMember" checked={formData.isEboardMember} onChange={handleChange} />
-                        <span className="slider round"></span>
-                    </label>
-                </div>
-
-                <div className="toggle-container">
-                    <span>Product Manager</span>
-                    <label className="toggle-switch">
-                        <input type="checkbox" name="isProductManager" checked={formData.isProductManager} onChange={handleChange} />
-                        <span className="slider round"></span>
-                    </label>
-                </div>
-
-                <div className="toggle-container">
-                    <span>Software Engineer</span>
-                    <label className="toggle-switch">
-                        <input type="checkbox" name="isSoftwareEngineer" checked={formData.isSoftwareEngineer} onChange={handleChange} />
-                        <span className="slider round"></span>
-                    </label>
-                </div>
-
-                <div className="toggle-container">
-                    <span>UI/UX Designer</span>
-                    <label className="toggle-switch">
-                        <input type="checkbox" name="isUIDesigner" checked={formData.isUIDesigner} onChange={handleChange} />
-                        <span className="slider round"></span>
-                    </label>
-                </div>
-
-                <div className="input-group">
-                    <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} required />
-                </div>
-
-                <div className="input-group">
-                    <input type="text" name="funFact" placeholder="Fun Fact" value={formData.funFact} onChange={handleChange} />
-                </div>
-
                 <label>Profile Picture:</label>
                 <div className="input-group">
-                    <input type="file" accept="image/*" onChange={handleImageUpload} />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        disabled={uploading}
+                        ref={fileInputRef} // Attach ref here
+                    />
                 </div>
+
                 {uploading && <p>Uploading image...</p>}
-                {formData.image && <img src={formData.image} alt="Profile Preview" width="100" className="profile-preview" />}
+                {formData.image && (
+                    <div className="image-preview">
+                        <img src={formData.image} alt="Profile Preview" width="100" className="profile-preview" />
+                        <button type="button" onClick={handleRemoveImage} className="remove-image-btn">Remove Image</button>
+                    </div>
+                )}
 
                 <h3>Social Links</h3>
                 <div className="input-group">
@@ -183,7 +168,9 @@ const AddEditTeamMember = () => {
                     />
                 </div>
 
-                <button type="submit" className="submit-btn">{id ? "Update" : "Add"} Member</button>
+                <button type="submit" className="submit-btn" disabled={uploading || loading}>
+                    {uploading || loading ? "Processing..." : id ? "Update" : "Add"} Member
+                </button>
             </form>
         </div>
     );
